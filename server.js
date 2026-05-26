@@ -64,9 +64,10 @@ app.get("/posts", async (req, res) => {
 
 // Endpoint pour créer un nouvel utilisateur
 app.post("/users", async (req, res) => {
+    console.log("Received request to create user:", req.body)
     const username = req.body.username
     const password = req.body.password
-
+    console.log("username:", username)
     const salt = crypto.randomBytes(16)
 
     crypto.pbkdf2(password, salt, 310000, 32, "sha256", async (err, hashedPassword) => {
