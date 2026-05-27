@@ -1,14 +1,11 @@
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
-require('dotenv').config() //ajoute
+require('dotenv').config()
 const uri = process.env.MONGO_URI
-const express = require("express") //ajoute
+const express = require("express")
+const crypto = require("crypto")
 
-const crypto = require("crypto") //ajoute
-
-
-
-const app = express()   //ajoute
-app.use(express.json())  //ajoute
+const app = express()
+app.use(express.json())
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -61,13 +58,14 @@ app.get("/posts", async (req, res) => {
     res.json(posts)
 })
 
+app.get("/newuser", (req, res) => {
+    res.sendFile("newuser.html", {root: "../megaphone-frontend"})
+})
 
-// Endpoint pour créer un nouvel utilisateur
 app.post("/users", async (req, res) => {
-    console.log("Received request to create user:", req.body)
     const username = req.body.username
     const password = req.body.password
-    console.log("username:", username)
+
     const salt = crypto.randomBytes(16)
 
     crypto.pbkdf2(password, salt, 310000, 32, "sha256", async (err, hashedPassword) => {
@@ -87,8 +85,6 @@ app.post("/users", async (req, res) => {
         })
     })
 })
-
-
 
 app.post("/posts", async (req, res) => {
     const newPost = {
