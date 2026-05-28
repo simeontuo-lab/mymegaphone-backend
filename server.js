@@ -59,7 +59,7 @@ app.get("/posts", async (req, res) => {
 })
 
 app.get("/newuser", (req, res) => {
-    res.sendFile("newuser.html", {root: "../megaphone-frontend"})
+    res.sendFile("newuser.html", {root: "../mymegaphone-frontend"})
 })
 
 app.post("/users", async (req, res) => {
